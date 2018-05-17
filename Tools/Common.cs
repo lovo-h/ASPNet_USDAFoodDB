@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace USDAFoodDB.Tools {
     public class Common {
@@ -14,6 +15,14 @@ namespace USDAFoodDB.Tools {
 
             fileReader.Close();
             return dataList;
+        }
+        
+        public static double GetValidDoubleFromString(string doubleString) {
+            return string.IsNullOrEmpty(doubleString) ? 0.0 : Convert.ToDouble(doubleString);
+        }
+
+        public static Int32 GetValidInt32FromString(string int32String) {
+            return string.IsNullOrEmpty(int32String) ? 0 : Convert.ToInt32(int32String);
         }
     }
 }
