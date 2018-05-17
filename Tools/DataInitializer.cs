@@ -225,7 +225,7 @@ namespace USDAFoodDB.Tools {
         }
 
         private static void Init_DatSrcLn(USDAFoodContext context) {
-            List<string[]> dataList = Common.ReadFilepath(DATA_FILEPATH + "/DATSRCLN.txt");
+            List<string[]> dataList = Common.ReadFilepath(DATA_FILEPATH + "/DATSRCLN.fixed.txt");
             List<DatSrcLn> datSrcLns = new List<DatSrcLn>();
 
             foreach (string[] datapoint in dataList) {
@@ -240,8 +240,9 @@ namespace USDAFoodDB.Tools {
         }
 
         public static void Initialize(USDAFoodContext context) {
-            Common.NarrateAction("Ensuring Empty Database", () => { context.Database.EnsureDeleted(); });
-            Common.NarrateAction("Ensuring Created Database", () => context.Database.EnsureCreated());
+            Common.NarrateAction("Ensuring DATSRCLN records", () => DataCorrection.FixDatSrcLnRecords() );
+            Common.NarrateAction("Ensuring Empty Database", () => context.Database.EnsureDeleted() );
+            Common.NarrateAction("Ensuring Created Database", () => context.Database.EnsureCreated() );
 
             if (!context.FdGroups.Any()) {
                 Common.NarrateAction("Adding FdGroups", () => Init_FdGroups(context));
