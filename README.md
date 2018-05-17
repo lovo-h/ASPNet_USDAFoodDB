@@ -25,16 +25,16 @@ Required data-files, obtained from the USDA website:
 
 ###### Database Relationships
 | | | | | |
-| ---: | --- | ---: | --- | :---: |
-| **ONE** | FOOD_DES| **TO MANY** | NUT_DATA | |
-| **ONE** | FOOD_DES| **TO MANY** | WEIGHT | |
-| **ONE** | FOOD_DES| **TO MANY** | FOOTNOTE | |
-| **ONE** | FD_GROUP| **TO MANY** | FOOD_DES | |
-| **MANY** | FOOD_DES| **TO MANY** | LANGDESC | intermediary: LANGUAL |
-| **ONE** | SRC_CD | **TO MANY** | NUT_DATA | |
-| **ONE** | DERIV_CD| **TO MANY** | NUT_DATA | |
-| **ONE** | NUTR_DEF| **TO MANY** | NUT_DATA | |
+| ---: | --- | ---: | --- | --- |
+| **ONE** | FOOD_DES (p) | **TO MANY** | NUT_DATA (d) | |
+| **ONE** | FOOD_DES (p) | **TO MANY** | WEIGHT (d) | |
+| **ONE** | FOOD_DES (p) | **TO MANY** | FOOTNOTE (d) | |
+| **ONE** | FD_GROUP (p) | **TO MANY** | FOOD_DES (d) | |
+| **MANY** | FOOD_DES (p) | **TO MANY** | LANGDESC (p) | intermediary: LANGUAL (d) |
+| **ONE** | SRC_CD (p) | **TO MANY** | NUT_DATA (d) | |
+| **ONE** | DERIV_CD (p) | **TO MANY** | NUT_DATA (d) | |
+| **ONE** | NUTR_DEF (p) | **TO MANY** | NUT_DATA (d) | |
 | **MANY** | NUT_DATA| **TO MANY** | DATA_SRC | intermediary: DATASRCLN |
 
-
+**Note**: the principal entities are marked with (p) and the dependent entities are marked with (d)
 
