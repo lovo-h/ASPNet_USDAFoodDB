@@ -5,5 +5,7 @@
         public string FootntTyp { get; set; }
         public string NutrNo { get; set; }
         public string FootntTxt { get; set; }
+
+        public FoodDes FoodDes { get; set; }
     }
 }

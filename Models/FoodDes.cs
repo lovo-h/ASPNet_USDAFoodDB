@@ -1,4 +1,6 @@
-﻿namespace USDAFoodDB.Models {
+﻿using System.Collections.Generic;
+
+namespace USDAFoodDB.Models {
     public class FoodDes {
         public string NdbNo { get; set; }
         public string FdGrpCd { get; set; }
@@ -14,5 +16,12 @@
         public double ProFactor { get; set; }
         public double FatFactor { get; set; }
         public double ChoFactor { get; set; }
+
+        public FdGroup FdGroup { get; set; }
+        public List<Langual> Languals { get; set; }
+
+        public List<NutData> NutDatas { get; set; }
+        public List<Footnote> Footnotes { get; set; }
+        public List<Weight> Weights { get; set; }
     }
 }

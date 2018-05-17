@@ -7,5 +7,7 @@
         public double GmWgt { get; set; }
         public int NumDataPts { get; set; }
         public double StdDev { get; set; }
+
+        public FoodDes FoodDes { get; set; }
     }
 }

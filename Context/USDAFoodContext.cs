@@ -59,6 +59,12 @@ namespace USDAFoodDB.Context {
             mb.Entity<FoodDes>().Property(fd => fd.Survey).HasMaxLength(1);
             mb.Entity<FoodDes>().Property(fd => fd.RefDesc).HasMaxLength(135);
             mb.Entity<FoodDes>().Property(fd => fd.SciName).HasMaxLength(65);
+
+            // RELATIONSHIP: ONE FdGroup TO MANY FoodDes
+            mb.Entity<FoodDes>()
+                .HasOne(fd => fd.FdGroup)
+                .WithMany(fdg => fdg.FoodDeses)
+                .HasForeignKey(fd => fd.FdGrpCd);
         }
 
         private void configureEntityFdGroup(ModelBuilder mb) {
@@ -95,6 +101,30 @@ namespace USDAFoodDB.Context {
             mb.Entity<NutData>().Property(nd => nd.AddNutrMark).HasMaxLength(1);
             mb.Entity<NutData>().Property(nd => nd.StatCmt).HasMaxLength(10);
             mb.Entity<NutData>().Property(nd => nd.AddModDate).HasMaxLength(10);
+
+            // RELATIONSHIP: ONE FoodDes TO MANY NutData
+            mb.Entity<NutData>()
+                .HasOne(nd => nd.FoodDes)
+                .WithMany(fd => fd.NutDatas)
+                .HasForeignKey(nd => nd.NdbNo);
+
+            // RELATIONSHIP: ONE SrcCd TO MANY NutData 
+            mb.Entity<NutData>()
+                .HasOne(nd => nd.Src_Cd)
+                .WithMany(sc => sc.NutDatas)
+                .HasForeignKey(nd => nd.SrcCd);
+
+            // RELATIONSHIP: ONE DerivCd TO MANY NutData 
+            mb.Entity<NutData>()
+                .HasOne(nd => nd.Deriv_Cd)
+                .WithMany(dc => dc.NutDatas)
+                .HasForeignKey(nd => nd.DerivCd);
+
+            // RELATIONSHIP: ONE NutrDef TO MANY NutData
+            mb.Entity<NutData>()
+                .HasOne(nd => nd.NutrDef)
+                .WithMany(nd => nd.NutDatas)
+                .HasForeignKey(nd => nd.NutrNo);
         }
 
         private void configureEntityDatSrcLn(ModelBuilder mb) {
@@ -110,6 +140,16 @@ namespace USDAFoodDB.Context {
             mb.Entity<DatSrcLn>().Property(dsl => dsl.NdbNo).HasMaxLength(5);
             mb.Entity<DatSrcLn>().Property(dsl => dsl.NutrNo).HasMaxLength(3);
             mb.Entity<DatSrcLn>().Property(dsl => dsl.DataSrcId).HasMaxLength(6);
+
+            // RELATIONSHIP: MANY NutData TO MANY DataSrc
+            mb.Entity<DatSrcLn>()
+                .HasOne(dsl => dsl.NutData)
+                .WithMany(nd => nd.DatSrcLns)
+                .HasForeignKey(dsl => new {dsl.NdbNo, dsl.NutrNo});
+            mb.Entity<DatSrcLn>()
+                .HasOne(dsl => dsl.DataSrc)
+                .WithMany(ds => ds.DatSrcLns)
+                .HasForeignKey(dsl => dsl.DataSrcId);
         }
 
         private void configureEntityDataSrc(ModelBuilder mb) {
@@ -155,10 +195,16 @@ namespace USDAFoodDB.Context {
             mb.Entity<Footnote>().Property(f => f.FootntTyp).HasMaxLength(1);
             mb.Entity<Footnote>().Property(f => f.NutrNo).HasMaxLength(3);
             mb.Entity<Footnote>().Property(f => f.FootntTxt).HasMaxLength(200);
+
+            // RELATIONSHIP: ONE FoodDes TO MANY Footnotes
+            mb.Entity<Footnote>()
+                .HasOne(f => f.FoodDes)
+                .WithMany(fd => fd.Footnotes)
+                .HasForeignKey(f => f.NdbNo);
         }
 
         private void configureEntityWeight(ModelBuilder mb) {
-            // PRIMARY KEY (composite)
+            // PRIMARY KEY
             mb.Entity<Weight>().HasKey(w => new {w.NdbNo, w.Seq});
 
             // NOT NULL
@@ -172,10 +218,16 @@ namespace USDAFoodDB.Context {
             mb.Entity<Weight>().Property(f => f.NdbNo).HasMaxLength(5);
             mb.Entity<Weight>().Property(f => f.Seq).HasMaxLength(2);
             mb.Entity<Weight>().Property(f => f.MsreDesc).HasMaxLength(84);
+
+            // RELATIONSHIP: ONE FoodDes TO MANY Weights
+            mb.Entity<Weight>()
+                .HasOne(w => w.FoodDes)
+                .WithMany(fd => fd.Weights)
+                .HasForeignKey(w => w.NdbNo);
         }
 
         private void configureEntityLangual(ModelBuilder mb) {
-            // PRIMARY KEY (composite)
+            // PRIMARY KEY
             mb.Entity<Langual>().HasKey(l => new {l.NdbNo, l.FactorCode});
 
             // NOT NULL
@@ -185,6 +237,16 @@ namespace USDAFoodDB.Context {
             // NVARCHAR(x)
             mb.Entity<Langual>().Property(l => l.NdbNo).HasMaxLength(5);
             mb.Entity<Langual>().Property(l => l.FactorCode).HasMaxLength(5);
+
+            // RELATIONSHIP: Many FoodDes TO MANY LangDesc
+            mb.Entity<Langual>()
+                .HasOne(l => l.FoodDes)
+                .WithMany(fd => fd.Languals)
+                .HasForeignKey(l => l.NdbNo);
+            mb.Entity<Langual>()
+                .HasOne(l => l.LangDesc)
+                .WithMany(ld => ld.Languals)
+                .HasForeignKey(l => l.FactorCode);
         }
 
         private void configureEntityLangDesc(ModelBuilder mb) {

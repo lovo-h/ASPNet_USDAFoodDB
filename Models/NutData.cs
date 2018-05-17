@@ -1,4 +1,6 @@
-﻿namespace USDAFoodDB.Models {
+﻿using System.Collections.Generic;
+
+namespace USDAFoodDB.Models {
     public class NutData {
         public string NdbNo { get; set; }
         public string NutrNo { get; set; }
@@ -17,5 +19,11 @@
         public double UpEb { get; set; }
         public string StatCmt { get; set; }
         public string AddModDate { get; set; }
+
+        public DerivCd Deriv_Cd { get; set; }
+        public SrcCd Src_Cd { get; set; }
+        public NutrDef NutrDef { get; set; }
+        public FoodDes FoodDes { get; set; }
+        public List<DatSrcLn> DatSrcLns { get; set; }
     }
 }
