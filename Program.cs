@@ -12,7 +12,7 @@ namespace USDAFoodDB {
             optionsBuilder.UseSqlServer(ConnString);
 
             using (var context = new USDAFoodContext(optionsBuilder.Options)) {
-                
+                Tools.DataInitializer.Initialize(context);
             }
         }
     }

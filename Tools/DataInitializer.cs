@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using USDAFoodDB.Context;
 using USDAFoodDB.Models;
 
@@ -236,6 +237,59 @@ namespace USDAFoodDB.Tools {
             }
 
             AddToDatabase(context, ref datSrcLns);
+        }
+
+        public static void Initialize(USDAFoodContext context) {
+            Common.NarrateAction("Ensuring Empty Database", () => { context.Database.EnsureDeleted(); });
+            Common.NarrateAction("Ensuring Created Database", () => context.Database.EnsureCreated());
+
+            if (!context.FdGroups.Any()) {
+                Common.NarrateAction("Adding FdGroups", () => Init_FdGroups(context));
+            }
+
+            if (!context.LangDescs.Any()) {
+                Common.NarrateAction("Adding LangDescs", () => Init_LangDesc(context));
+            }
+
+            if (!context.FoodDeses.Any()) {
+                Common.NarrateAction("Adding FoodDeses", () => Init_FoodDes(context));
+            }
+
+            if (!context.Languals.Any()) {
+                Common.NarrateAction("Adding Languals", () => Init_Langual(context));
+            }
+
+            if (!context.Footnotes.Any()) {
+                Common.NarrateAction("Adding Footnotes", () => Init_Footnote(context));
+            }
+
+            if (!context.Weights.Any()) {
+                Common.NarrateAction("Adding Weights", () => Init_Weight(context));
+            }
+
+            if (!context.DerivCds.Any()) {
+                Common.NarrateAction("Adding DerivCds", () => Init_DerivCd(context));
+            }
+
+            if (!context.SrcCds.Any()) {
+                Common.NarrateAction("Adding SrcCds", () => Init_SrcCd(context));
+            }
+
+            if (!context.NutrDefs.Any()) {
+                Common.NarrateAction("Adding NutrDefs", () => Init_NutrDef(context));
+            }
+
+            if (!context.DataSrcs.Any()) {
+                Common.NarrateAction("Adding DataSrcs", () => Init_DataSrc(context));
+            }
+
+            if (!context.NutDatas.Any()) {
+                Common.NarrateAction("Adding NutDatas", () => Init_NutData(context));
+            }
+
+            if (!context.DatSrcLns.Any()) {
+                Common.NarrateAction("Adding DatSrcLns", () => Init_DatSrcLn(context));
+            }
         }
     }
 }

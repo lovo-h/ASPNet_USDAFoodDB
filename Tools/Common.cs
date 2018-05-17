@@ -16,13 +16,19 @@ namespace USDAFoodDB.Tools {
             fileReader.Close();
             return dataList;
         }
-        
+
         public static double GetValidDoubleFromString(string doubleString) {
             return string.IsNullOrEmpty(doubleString) ? 0.0 : Convert.ToDouble(doubleString);
         }
 
         public static Int32 GetValidInt32FromString(string int32String) {
             return string.IsNullOrEmpty(int32String) ? 0 : Convert.ToInt32(int32String);
+        }
+
+        public static void NarrateAction(string actionStr, Action theAction) {
+            Console.Write(actionStr + "... ");
+            theAction();
+            Console.WriteLine("Done");
         }
     }
 }
