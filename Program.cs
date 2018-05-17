@@ -1,22 +1,18 @@
-﻿using System;
-using System.Data.SqlClient;
-
+﻿using Microsoft.EntityFrameworkCore;
+using USDAFoodDB.Context;
 
 namespace USDAFoodDB {
     class Program {
-        private const string ConnString = "Server=localhost,1433;Database=master;" +
+        private const string ConnString = "Server=localhost,1433;Database=USDAFoodAPI;" +
                                           "User Id=sa;Password=password123!;" +
                                           "MultipleActiveResultSets=true";
 
         static void Main() {
-            var connection = new SqlConnection(ConnString);
+            var optionsBuilder = new DbContextOptionsBuilder<USDAFoodContext>();
+            optionsBuilder.UseSqlServer(ConnString);
 
-            try {
-                connection.Open();
-                Console.WriteLine("Successfully connected.");
-                connection.Close();
-            } catch (Exception ex) {
-                Console.WriteLine("Cannot open a connection:" + ex.Message);
+            using (var context = new USDAFoodContext(optionsBuilder.Options)) {
+                
             }
         }
     }
