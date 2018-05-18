@@ -241,7 +241,7 @@ namespace USDAFoodDB.Tools {
 
         public static void Initialize(USDAFoodContext context) {
             Common.NarrateAction("Ensuring DATSRCLN records", () => DataCorrection.FixDatSrcLnRecords() );
-            Common.NarrateAction("Ensuring Empty Database", () => context.Database.EnsureDeleted() );
+            // Common.NarrateAction("Ensuring Empty Database", () => context.Database.EnsureDeleted() );
             Common.NarrateAction("Ensuring Created Database", () => context.Database.EnsureCreated() );
 
             if (!context.FdGroups.Any()) {
@@ -292,5 +292,39 @@ namespace USDAFoodDB.Tools {
                 Common.NarrateAction("Adding DatSrcLns", () => Init_DatSrcLn(context));
             }
         }
+        
+        public static void EnsureCorrectDataEntry(USDAFoodContext context) {
+            bool dataSrcValidCount = EnsureTable(606, context.DataSrcs.Count(), "DATA_SRC");
+            bool dataSrcLnValidCount = EnsureTable(228457 - 119, context.DatSrcLns.Count(), "DATSRCLN");
+            bool derivCdValidCount = EnsureTable(56, context.DerivCds.Count(), "DERIV_CD");
+            bool fdGroupValidCount = EnsureTable(25, context.FdGroups.Count(), "FD_GROUP");
+            bool foodDesValidCount = EnsureTable(7793, context.FoodDeses.Count(), "FOOD_DES");
+            bool footnoteValidCount = EnsureTable(537, context.Footnotes.Count(), "FOOTNOTE");
+            bool langDescValidCount = EnsureTable(773, context.LangDescs.Count(), "LANGDESC");
+            bool langualValidCount = EnsureTable(37910, context.Languals.Count(), "LANGUAL");
+            bool nutDataValidCount = EnsureTable(644125, context.NutDatas.Count(), "NUT_DATA");
+            bool nutrDefValidCount = EnsureTable(149, context.NutrDefs.Count(), "NUTR_DEF");
+            bool srcCdValidCount = EnsureTable(10, context.SrcCds.Count(), "SRC_CD");
+            bool weightValidCount = EnsureTable(14449, context.Weights.Count(), "WEIGHT");
+
+            bool validCounts = dataSrcValidCount && dataSrcLnValidCount && derivCdValidCount
+                               && fdGroupValidCount && foodDesValidCount && footnoteValidCount
+                               && langDescValidCount && langualValidCount && nutDataValidCount
+                               && nutrDefValidCount && srcCdValidCount && weightValidCount;
+
+            Console.WriteLine(validCounts ? "Successfully completed operation!" : "Failed to complete operation!");
+        }
+        
+        private static bool EnsureTable(int expected, int result, string tableName) {
+            if (expected != result) {
+                Console.WriteLine(tableName + ": expected " + expected + 
+                                  " but got " + result + " instead");
+            } else {
+                Console.WriteLine("Successfully completed: " + tableName);
+            }
+
+            return expected == result;
+        }
+
     }
 }

@@ -13,6 +13,7 @@ namespace USDAFoodDB {
 
             using (var context = new USDAFoodContext(optionsBuilder.Options)) {
                 Tools.DataInitializer.Initialize(context);
+                Tools.DataInitializer.EnsureCorrectDataEntry(context);
             }
         }
     }
